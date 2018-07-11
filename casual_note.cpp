@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h> 
 
 struct note
 {
@@ -15,6 +16,14 @@ struct note
 struct note *head;
 
 
+void print_note(struct note *nn)
+{
+    printf("\nName:    %s\n",nn->name);
+    printf("Surname: %s\n", nn->surname);
+    printf("Phone:   %7.0lf\n", nn->phone);
+}
+
+
 int show_records()
 {
     struct note *hhead = head;
@@ -27,10 +36,7 @@ int show_records()
     
     while(hhead != NULL )
     {
-        printf("Name:    %s\n",hhead->name);
-        printf("Surname: %s\n", hhead->surname);
-        printf("Phone:   %7.0lf\n\n", hhead->phone);
-        
+        print_note(hhead);
         hhead = hhead->next;
     }
     printf("\n");
@@ -78,6 +84,80 @@ int  add_record()
     return 0;
 }
 
+void search_notes()
+{
+    struct note * hhead = head;
+    
+    int input = 0;
+    
+    double search_phone = 0.0;
+    char search_text[50];
+    
+    printf("1 - Search by name\n");
+    printf("2 - Search by surname\n");
+    printf("3 - Search by phone\n\n");
+    printf("4 - cancel\n\n");
+    
+    scanf("%d",&input);
+    
+    if(input == 1 || input == 2)
+    {
+        printf("Enter value: ");
+        scanf("%s",search_text);
+    }
+    else if(input == 3)
+    {
+        printf("Enter value: ");
+        scanf("%lf",&search_phone);
+    }
+    else
+    {
+        return;
+    }
+    
+    
+    while(hhead != NULL)
+    {
+        switch(input)
+        {
+            case 1 : 
+                
+                if(strcmp (search_text, hhead->name) == 0)
+                {
+                    print_note(hhead);
+                }
+                break;
+                
+            case 2 :
+                
+                if(strcmp (search_text, hhead->surname) == 0)
+                {
+                    print_note(hhead);
+                }
+                break;
+                
+            case 3 :
+                
+                if(search_phone == hhead->phone)
+                {
+                    print_note(hhead);
+                }
+                break;
+                
+            default:
+                
+                break;
+        }
+        
+    printf("\n");
+    
+    hhead = hhead->next;  
+    }
+    
+     
+}
+
+
 void clear_note()
 {
     struct note * next_note;
@@ -107,6 +187,7 @@ int main()
         printf("Hello! It's casual notebook\n");
         printf("1 - Show all records\n");
         printf("2 - Add new record\n");
+        printf("3 - Search records\n");
         printf("5 - Exit\n\n");
         
         scanf("%d",&input_n);
@@ -136,8 +217,12 @@ int main()
             case 2 :
                 
                 ret = add_record();
-                
                 break;
+                
+            case 3 :
+                
+                search_notes();
+                break;                
                 
             case 5 :
                 break;
