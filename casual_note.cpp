@@ -81,6 +81,7 @@ int  add_record()
     }
     
     hhead->next = new_note;
+    
     return 0;
 }
 
@@ -92,6 +93,7 @@ void search_notes()
     
     double search_phone = 0.0;
     char search_text[50];
+    bool found = false;
     
     printf("1 - Search by name\n");
     printf("2 - Search by surname\n");
@@ -99,7 +101,7 @@ void search_notes()
     printf("4 - cancel\n\n");
     
     scanf("%d",&input);
-    
+      
     if(input == 1 || input == 2)
     {
         printf("Enter value: ");
@@ -125,6 +127,7 @@ void search_notes()
                 if(strcmp (search_text, hhead->name) == 0)
                 {
                     print_note(hhead);
+                    found = true;
                 }
                 break;
                 
@@ -133,6 +136,7 @@ void search_notes()
                 if(strcmp (search_text, hhead->surname) == 0)
                 {
                     print_note(hhead);
+                    found = true;
                 }
                 break;
                 
@@ -141,6 +145,7 @@ void search_notes()
                 if(search_phone == hhead->phone)
                 {
                     print_note(hhead);
+                    found = true;
                 }
                 break;
                 
@@ -149,12 +154,17 @@ void search_notes()
                 break;
         }
         
-    printf("\n");
+   
     
     hhead = hhead->next;  
     }
     
-     
+    printf("\n");
+    if(!found)
+    {
+        printf("Not found!\n");
+    }
+    
 }
 
 
@@ -248,9 +258,7 @@ void delete_note()
             continue;
         }
         
-        
-    
-    
+   
         previous = hhead;
         hhead = hhead->next;  
     }
@@ -282,7 +290,7 @@ int main()
     
     while(1)
     {
-//         system("clear");
+        system("clear");
         printf("Hello! It's casual notebook\n");
         printf("1 - Show all records\n");
         printf("2 - Add new record\n");
@@ -302,7 +310,7 @@ int main()
                 {
                     printf("NO records!\n\n");
                     
-                    sleep(3);
+                    
                 }
                 else
                 {
@@ -336,13 +344,13 @@ int main()
                 printf("Unknown command\n");
                 break;
         }
-    
-//         printf("%c\n",input_ch);
         
         if(input_n == 5)
         {
             break;
         }
+        
+        sleep(3);
     }
     
     clear_note();
